@@ -1,0 +1,23 @@
+{
+  "name": "virtual-keyboard",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack --mode development",
+    "build": "webpack --mode development"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MarynaDanilkina/virtual-keyboard.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MarynaDanilkina/virtual-keyboard/issues"
+  },
+  "homepage": "https://github.com/MarynaDanilkina/virtual-keyboard#readme",
+  "devDependencies": {
+    "webpack": "^5.72.0"
+  }
+}

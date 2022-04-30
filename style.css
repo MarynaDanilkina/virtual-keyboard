@@ -1,0 +1,91 @@
+.window {
+    display: flex;
+    justify-content: center;
+}
+
+.window__input {
+    width: 700px;
+    height: 200px;
+}
+
+.keyboard {
+    display: flex;
+    justify-content: center;
+}
+
+.keyboard__container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 100px;
+    border-radius: 25px;
+    width: 960px;
+    height: 360px;
+    background-color: rgb(179 203 185);
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 27px 24px 0 rgba(0, 0, 0, 0.2),
+        0 40px 77px 0 rgba(0, 0, 0, 0.22);
+}
+
+.keyboard__button {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 920px;
+}
+
+button {
+    background-color: #4f5454;
+    margin: 5px;
+    font-size: 11px;
+    color: rgb(203, 201, 201);
+    padding: 5px;
+    border-radius: 10px;
+    box-shadow: 0px 5px 0px rgba(0, 0, 0, 0.2);
+}
+
+button:hover {
+    cursor: pointer;
+    background-color: #7b7d7d;
+}
+
+button:active {
+    background-color: #7b7d7d;
+    cursor: pointer;
+    box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.2);
+    transform: translateY(3px);
+    transition: all 0.01s ease-in-out;
+}
+
+.button__key {
+    width: 45px;
+    height: 45px;
+}
+
+.button__backspace {
+    width: 13.4%;
+}
+
+.button__caps {
+    width: 13.4%;
+}
+
+.button__tab {
+    width: 7.6%;
+}
+
+.button__enter {
+    width: 11%;
+}
+
+.button__shift {
+    width: 13.6%;
+}
+
+.button__ctrl {
+    width: 10%;
+}
+
+.button__space {
+    width: 33.2%;
+}
