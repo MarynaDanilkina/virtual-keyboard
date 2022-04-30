@@ -18,6 +18,10 @@
   },
   "homepage": "https://github.com/MarynaDanilkina/virtual-keyboard#readme",
   "devDependencies": {
-    "webpack": "^5.72.0"
+    "eslint": "^8.14.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "webpack": "^5.72.0",
+    "webpack-cli": "^4.9.2"
   }
 }
