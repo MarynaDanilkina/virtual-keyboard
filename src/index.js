@@ -9,7 +9,6 @@ let shiftState = false;
 let capsState = false;
 let lang = 'en'
 
-const textarea = document.querySelector(".window__input");
 
 function addDiv() {
     const body = document.querySelector('body')
@@ -52,6 +51,7 @@ function addButton(divKeyboardCont) {
     for (let i = 0; i < en.length; i++) {
         let button = document.createElement('button')
         button.classList.add('button__key');
+        button.dataset.code = en[i].code;
         if (en[i].class !== '') {
             button.classList.add(en[i].class);
 
@@ -63,7 +63,47 @@ function addButton(divKeyboardCont) {
 
 
 function getButton(i) {
-    if (lang === 'en' && (shiftState === false || capsState === false)) {
-        return en[i].small;
+
+    if (lang === 'en') {
+        if ((shiftState === true || capsState === true)) {
+            return en[i].shift;
+        } else {
+            return en[i].small;
+        }
+    }
+    if (lang === 'ru') {
+        if ((shiftState === true || capsState === true)) {
+            return ru[i].shift;
+        } else {
+            return ru[i].small;
+        }
+    }
+
+}
+function getCodeClickButton(code) {
+    let index = 0;
+    for (let i = 0; i < en.length; i++) {
+        if (en[i].code === code) {
+            index = i;
+            break;
+        }
+    }
+    return getButton(index);
+}
+function addListeners() {
+    document.addEventListener('mousedown', (event) => onMouseDown(event));
+}
+addListeners()
+
+
+function onMouseDown(event) {
+    let code = '';
+    if (event.target.tagName === 'BUTTON') {
+        code = event.target.dataset.code;
+        console.log(code)
+    }
+    if (code !== '') {
+        let textarea = document.querySelector('textarea')
+        textarea.innerHTML += getCodeClickButton(code);
     }
 }

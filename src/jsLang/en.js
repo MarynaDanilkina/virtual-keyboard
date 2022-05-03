@@ -79,13 +79,13 @@ export default [
     },
     {
         small: 'Backspace',
-        shift: null,
+        shift: 'Backspace',
         code: 'Backspace',
         class: 'button__backspace',
     },
     {
         small: 'Tab',
-        shift: null,
+        shift: 'Tab',
         code: 'Tab',
         class: 'button__tab',
     },
@@ -169,7 +169,7 @@ export default [
     },
     {
         small: 'Delete',
-        shift: null,
+        shift: 'Delete',
         code: 'Delete',
         class: '',
     },
@@ -177,8 +177,9 @@ export default [
 
     {
         small: 'CapsLock',
-        shift: null,
+        shift: 'CapsLock',
         code: 'CapsLock',
+        class: 'button__caps',
     },
     {
         small: 'a',
@@ -249,13 +250,13 @@ export default [
 
     {
         small: 'Enter',
-        shift: null,
+        shift: 'Enter',
         code: 'Enter',
         class: 'button__enter',
     },
     {
         small: 'Shift',
-        shift: null,
+        shift: 'Shift',
         code: 'ShiftLeft',
         class: 'button__shift',
     },
@@ -327,68 +328,68 @@ export default [
     },
     {
         small: '&#9650;',
-        shift: null,
+        shift: '&#9650;',
         code: 'ArrowUp',
         class: '',
     },
     {
         small: 'Shift',
-        shift: null,
+        shift: 'Shift',
         code: 'ShiftRight',
         class: '',
     },
     {
         small: 'Ctrl',
-        shift: null,
+        shift: 'Ctrl',
         code: 'ControlLeft',
         class: 'button__ctrl',
     },
     {
         small: 'Win',
-        shift: null,
+        shift: 'Win',
         code: 'Win',
         class: '',
     },
     {
         small: 'Alt',
-        shift: null,
+        shift: 'Alt',
         code: 'AltLeft',
         class: '',
     },
     {
         small: '&#8212;',
-        shift: null,
+        shift: '&#8212;',
         code: 'Space',
         class: 'button__space',
     },
     {
         small: 'Alt',
-        shift: null,
+        shift: 'Alt',
         code: 'AltRight',
         class: '',
     },
     {
         small: 'Ctrl',
-        shift: null,
+        shift: 'Ctrl',
         code: 'ControlRight',
         class: 'button__ctrl',
     },
     {
         small: '&#9668;',
-        shift: null,
+        shift: '&#9668;',
         code: 'ArrowLeft',
         class: '',
     },
 
     {
         small: '&#9660;',
-        shift: null,
+        shift: '&#9660;',
         code: 'ArrowDown',
         class: '',
     },
     {
         small: '&#9658;',
-        shift: null,
+        shift: '&#9658;',
         code: 'ArrowRight',
         class: '',
     },
