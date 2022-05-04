@@ -3,8 +3,7 @@ import en from './jsLang/en.js';
 
 export default { ru, en };
 const addClass = ['', '', '', '', '', '', '', '', '', '', '', '', '', 'button__backspace', 'button__tab', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'button__caps', '', '', '', '', '', '', '', '', '', '', '', 'button__enter', 'button__shift', '', '', '', '', '', '', '', '', '', '', '', '', '', 'button__ctrl', '', '', 'button__space', '', 'button__ctrl', '', '', ''];
-console.log(addClass.length)
-console.log(en.length)
+
 let shiftState = false;
 let capsState = false;
 let lang = 'en'
@@ -92,18 +91,118 @@ function getCodeClickButton(code) {
 }
 function addListeners() {
     document.addEventListener('mousedown', (event) => onMouseDown(event));
+    document.addEventListener('mouseup', (event) => onMouseUp(event));
+    document.addEventListener('keydown', (event) => onKeyDown(event));
+    document.addEventListener('keyup', (event) => onKeyUp(event));
 }
 addListeners()
 
 
 function onMouseDown(event) {
+    event.preventDefault();
     let code = '';
     if (event.target.tagName === 'BUTTON') {
         code = event.target.dataset.code;
-        console.log(code)
+        event.target.classList.add('animation');
     }
     if (code !== '') {
         let textarea = document.querySelector('textarea')
-        textarea.innerHTML += getCodeClickButton(code);
+        if (code === 'Backspace') {
+            textarea.innerHTML = textarea.innerHTML.slice(0, -1);
+        } else if (code === 'Enter') {
+            textarea.innerHTML = `${textarea.innerHTML}\n`;
+        } else if (code === 'ShiftLeft' || code === 'ShiftRight') {
+            shiftState = true;
+            console.log("-")
+            console.log(shiftState)
+            let but = document.querySelectorAll("button")
+            for (let i = 0; i < en.length; i++) {
+                but[i].innerHTML = getButton(i)
+            }
+        } else if (code === 'CapsLock') {
+            capsState = !capsState;
+            let but = document.querySelectorAll("button")
+            for (let i = 0; i < en.length; i++) {
+                but[i].innerHTML = getButton(i)
+            }
+        } else if (code === 'Tab') {
+            textarea.innerHTML = `${textarea.innerHTML}    `;
+        } else if (code === 'Space') {
+            textarea.innerHTML = `${textarea.innerHTML} `;
+        } else if (code === 'Delete') {
+            //
+        } else if (code === 'AltLeft' || code === 'AltRight' || code === 'Win' || code === 'ControlRight' || code === 'ControlLeft') {
+            //
+        } else {
+            textarea.innerHTML += getCodeClickButton(code);
+        }
+
+    }
+}
+function onMouseUp(event) {
+    event.preventDefault();
+    let code = '';
+    if (event.target.tagName === 'BUTTON') {
+        code = event.target.dataset.code;
+        event.target.classList.remove('animation');
+        console.log(code)
+    }
+    if (code === 'ShiftLeft' || code === 'ShiftRight') {
+        shiftState = false;
+        console.log(shiftState)
+        let but = document.querySelectorAll("button")
+        for (let i = 0; i < en.length; i++) {
+            but[i].innerHTML = getButton(i)
+        }
+    }
+}
+function onKeyDown(event) {
+    event.preventDefault();
+    let buto = document.querySelector(`button[data-code=${event.code}]`)
+    buto.classList.add('animation');
+    console.log(event)
+    let textarea = document.querySelector('textarea')
+    if (event.code === 'Backspace') {
+        textarea.innerHTML = textarea.innerHTML.slice(0, -1);
+    } else if (event.code === 'Enter') {
+        textarea.innerHTML = `${textarea.innerHTML}\n`;
+    } else if (event.code === 'ShiftLeft' || event.code === 'ShiftRight') {
+        shiftState = true;
+        console.log("-")
+        console.log(shiftState)
+        let but = document.querySelectorAll("button")
+        for (let i = 0; i < en.length; i++) {
+            but[i].innerHTML = getButton(i)
+        }
+    } else if (event.code === 'CapsLock') {
+        capsState = !capsState;
+        let but = document.querySelectorAll("button")
+        for (let i = 0; i < en.length; i++) {
+            but[i].innerHTML = getButton(i)
+        }
+    } else if (event.code === 'Tab') {
+        textarea.innerHTML = `${textarea.innerHTML}    `;
+    } else if (event.code === 'Space') {
+        textarea.innerHTML = `${textarea.innerHTML} `;
+    } else if (event.code === 'Delete') {
+        //
+    } else if (event.code === 'AltLeft' || event.code === 'AltRight' || event.code === 'Win' || event.code === 'ControlRight' || event.code === 'ControlLeft') {
+        //
+    } else {
+        textarea.innerHTML += getCodeClickButton(event.code);
+    }
+}
+function onKeyUp(event) {
+    event.preventDefault();
+    let buto = document.querySelector(`button[data-code=${event.code}]`)
+    buto.classList.remove('animation');
+    if (event.code === 'ShiftLeft' || event.code === 'ShiftRight') {
+        shiftState = false;
+        console.log("-")
+        console.log(shiftState)
+        let but = document.querySelectorAll("button")
+        for (let i = 0; i < en.length; i++) {
+            but[i].innerHTML = getButton(i)
+        }
     }
 }
