@@ -112,12 +112,20 @@ function onMouseDown(event) {
         } else if (code === 'Enter') {
             textarea.innerHTML = `${textarea.innerHTML}\n`;
         } else if (code === 'ShiftLeft' || code === 'ShiftRight') {
-            shiftState = true;
-            console.log("-")
-            console.log(shiftState)
-            let but = document.querySelectorAll("button")
-            for (let i = 0; i < en.length; i++) {
-                but[i].innerHTML = getButton(i)
+            if (capsState === false) {
+                shiftState = true
+                let but = document.querySelectorAll("button")
+                for (let i = 0; i < en.length; i++) {
+                    but[i].innerHTML = getButton(i)
+                }
+            }
+            if (capsState === true) {
+                shiftState = false
+                capsState = false
+                let but = document.querySelectorAll("button")
+                for (let i = 0; i < en.length; i++) {
+                    but[i].innerHTML = getButton(i)
+                }
             }
         } else if (code === 'CapsLock') {
             capsState = !capsState;
@@ -130,9 +138,7 @@ function onMouseDown(event) {
         } else if (code === 'Space') {
             textarea.innerHTML = `${textarea.innerHTML} `;
         } else if (code === 'Delete') {
-            //
         } else if (code === 'AltLeft' || code === 'AltRight' || code === 'Win' || code === 'ControlRight' || code === 'ControlLeft') {
-            //
         } else {
             textarea.innerHTML += getCodeClickButton(code);
         }
@@ -148,11 +154,20 @@ function onMouseUp(event) {
         console.log(code)
     }
     if (code === 'ShiftLeft' || code === 'ShiftRight') {
-        shiftState = false;
-        console.log(shiftState)
-        let but = document.querySelectorAll("button")
-        for (let i = 0; i < en.length; i++) {
-            but[i].innerHTML = getButton(i)
+        if (shiftState === false) {
+            shiftState = true
+            capsState = true
+            let but = document.querySelectorAll("button")
+            for (let i = 0; i < en.length; i++) {
+                but[i].innerHTML = getButton(i)
+            }
+        }
+        if (shiftState === true) {
+            shiftState = false
+            let but = document.querySelectorAll("button")
+            for (let i = 0; i < en.length; i++) {
+                but[i].innerHTML = getButton(i)
+            }
         }
     }
 }
@@ -167,12 +182,20 @@ function onKeyDown(event) {
     } else if (event.code === 'Enter') {
         textarea.innerHTML = `${textarea.innerHTML}\n`;
     } else if (event.code === 'ShiftLeft' || event.code === 'ShiftRight') {
-        shiftState = true;
-        console.log("-")
-        console.log(shiftState)
-        let but = document.querySelectorAll("button")
-        for (let i = 0; i < en.length; i++) {
-            but[i].innerHTML = getButton(i)
+        if (capsState === false) {
+            shiftState = true
+            let but = document.querySelectorAll("button")
+            for (let i = 0; i < en.length; i++) {
+                but[i].innerHTML = getButton(i)
+            }
+        }
+        if (capsState === true) {
+            shiftState = false
+            capsState = false
+            let but = document.querySelectorAll("button")
+            for (let i = 0; i < en.length; i++) {
+                but[i].innerHTML = getButton(i)
+            }
         }
     } else if (event.code === 'CapsLock') {
         capsState = !capsState;
@@ -197,12 +220,20 @@ function onKeyUp(event) {
     let buto = document.querySelector(`button[data-code=${event.code}]`)
     buto.classList.remove('animation');
     if (event.code === 'ShiftLeft' || event.code === 'ShiftRight') {
-        shiftState = false;
-        console.log("-")
-        console.log(shiftState)
-        let but = document.querySelectorAll("button")
-        for (let i = 0; i < en.length; i++) {
-            but[i].innerHTML = getButton(i)
+        if (shiftState === false) {
+            shiftState = true
+            capsState = true
+            let but = document.querySelectorAll("button")
+            for (let i = 0; i < en.length; i++) {
+                but[i].innerHTML = getButton(i)
+            }
+        }
+        if (shiftState === true) {
+            shiftState = false
+            let but = document.querySelectorAll("button")
+            for (let i = 0; i < en.length; i++) {
+                but[i].innerHTML = getButton(i)
+            }
         }
     }
 }
