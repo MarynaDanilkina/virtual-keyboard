@@ -343,9 +343,9 @@ export default [
         class: 'button__ctrl',
     },
     {
-        small: 'Win',
-        shift: 'Win',
-        code: 'Win',
+        small: 'RU',
+        shift: 'RU',
+        code: 'lang',
         class: '',
     },
     {

@@ -7,8 +7,7 @@ const addClass = ['', '', '', '', '', '', '', '', '', '', '', '', '', 'button__b
 let shiftState = false;
 let capsState = false;
 let lang = 'en'
-
-
+lang = localStorage.getItem('lang');
 function addDiv() {
     const body = document.querySelector('body')
     let div = document.createElement('div');
@@ -43,7 +42,7 @@ function addKeyboard(div2) {
 }
 function addP(div3) {
     let p = document.createElement('p');
-    p.innerHTML = 'Для переключения языка комбинация: Left Ctrl + Left Alt'
+    p.innerHTML = 'Для переключения языка комбинация: Left Ctrl + Left Alt или кнопка EN/RU'
     div3.append(p);
 }
 function addButton(divKeyboardCont) {
@@ -59,8 +58,6 @@ function addButton(divKeyboardCont) {
         divKeyboardCont.append(button)
     }
 }
-
-
 function getButton(i) {
 
     if (lang === 'en') {
@@ -79,6 +76,21 @@ function getButton(i) {
     }
 
 }
+function switchLang() {
+    if (lang === 'en') {
+        lang = 'ru'
+    } else {
+        lang = 'en'
+    }
+    localStorage.setItem('lang', lang);
+}
+function restart() {
+    let but = document.querySelectorAll("button")
+    for (let i = 0; i < en.length; i++) {
+        but[i].innerHTML = getButton(i)
+    }
+}
+let inputText = document.createElement("textarea");
 function getCodeClickButton(code) {
     let index = 0;
     for (let i = 0; i < en.length; i++) {
@@ -89,151 +101,273 @@ function getCodeClickButton(code) {
     }
     return getButton(index);
 }
+
+
+
+
+
+
+
+
+
+
 function addListeners() {
-    document.addEventListener('mousedown', (event) => onMouseDown(event));
     document.addEventListener('mouseup', (event) => onMouseUp(event));
     document.addEventListener('keydown', (event) => onKeyDown(event));
     document.addEventListener('keyup', (event) => onKeyUp(event));
+    document.addEventListener('mousedown', (event) => onMouseDown(event));
 }
 addListeners()
 
-
 function onMouseDown(event) {
-    event.preventDefault();
+    let inputText = document.querySelector('textarea')
     let code = '';
+    if (event.stopPropagation) {
+        event.stopPropagation();
+    }
+    inputText.focus();
     if (event.target.tagName === 'BUTTON') {
         code = event.target.dataset.code;
-        event.target.classList.add('animation');
+        event.target.classList.add('active');
     }
     if (code !== '') {
-        let textarea = document.querySelector('textarea')
-        if (code === 'Backspace') {
-            textarea.innerHTML = textarea.innerHTML.slice(0, -1);
-        } else if (code === 'Enter') {
-            textarea.innerHTML = `${textarea.innerHTML}\n`;
-        } else if (code === 'ShiftLeft' || code === 'ShiftRight') {
+        if (code === 'ShiftLeft' || code === 'ShiftRight') {
+            let textarea = document.querySelector('textarea')
             if (capsState === false) {
                 shiftState = true
-                let but = document.querySelectorAll("button")
-                for (let i = 0; i < en.length; i++) {
-                    but[i].innerHTML = getButton(i)
-                }
+                restart()
             }
             if (capsState === true) {
                 shiftState = false
                 capsState = false
-                let but = document.querySelectorAll("button")
-                for (let i = 0; i < en.length; i++) {
-                    but[i].innerHTML = getButton(i)
-                }
+                restart()
             }
-        } else if (code === 'CapsLock') {
-            capsState = !capsState;
-            let but = document.querySelectorAll("button")
-            for (let i = 0; i < en.length; i++) {
-                but[i].innerHTML = getButton(i)
-            }
-        } else if (code === 'Tab') {
-            textarea.innerHTML = `${textarea.innerHTML}    `;
-        } else if (code === 'Space') {
-            textarea.innerHTML = `${textarea.innerHTML} `;
-        } else if (code === 'Delete') {
-        } else if (code === 'AltLeft' || code === 'AltRight' || code === 'Win' || code === 'ControlRight' || code === 'ControlLeft') {
-        } else {
-            textarea.innerHTML += getCodeClickButton(code);
         }
-
+        if (code === 'CapsLock') {
+            capsState = !capsState;
+            restart()
+        }
+        if ((event.code === 'ShiftLeft' && event.altKey) || (event.code === 'AltLeft' && event.shiftKey)) {
+            switchLang()
+            restart()
+        }
+        if (code === 'lang') {
+            switchLang()
+            restart()
+        }
     }
+    event.preventDefault();
+    let cursorPos = inputText.selectionStart;
+    const left = inputText.value.slice(0, cursorPos);
+    const right = inputText.value.slice(cursorPos);
+    const fnButton = {
+        Tab: () => {
+            inputText.value = `${left}\t${right}`;
+        },
+        ArrowLeft: () => {
+            cursorPos = cursorPos - 1 >= 0 ? cursorPos - 1 : 0;
+        },
+        ArrowRight: () => {
+            cursorPos += 1;
+        },
+        ArrowUp: () => {
+            let fromLeft = inputText.value.slice(0, cursorPos).match(/(\n).*$(?!\1)/g) || [[1]];
+            cursorPos -= fromLeft[0].length
+        },
+        ArrowDown: () => {
+            let fromLeft = inputText.value.slice(cursorPos).match(/^.*(\n).*(?!\1)/) || [[1]];
+            cursorPos += fromLeft[0].length
+        },
+        Enter: () => {
+            inputText.value = `${left}\n${right}`;
+            cursorPos += 1;
+        },
+        Delete: () => {
+            inputText.value = `${left}${right.slice(1)}`;
+        },
+        Backspace: () => {
+            inputText.value = `${left.slice(0, -1)}${right}`;
+            cursorPos -= 1;
+        },
+        Space: () => {
+            inputText.value = `${left} ${right}`;
+            cursorPos += 1;
+        },
+        ShiftLeft: () => {
+            inputText.value = `${left}${right}`
+        },
+        ShiftRight: () => {
+            inputText.value = `${left}${right}`
+        },
+        CapsLock: () => {
+            inputText.value = `${left}${right}`
+        },
+        AltLeft: () => {
+            inputText.value = `${left} ${right}`;
+            cursorPos += 1;
+        },
+        ControlLeft: () => {
+            inputText.value = `${left}${right}`
+        },
+        ControlRight: () => {
+            inputText.value = `${left}${right}`
+        },
+        AltRight: () => {
+            inputText.value = `${left}${right}`
+        },
+        lang: () => {
+            inputText.value = `${left}${right}`
+        },
+    }
+
+    if (fnButton[code]) {
+        fnButton[code]();
+    } else if (code) {
+        cursorPos += 1;
+        console.log(code)
+        inputText.value = `${left}${getCodeClickButton(code) || ''}${right}`
+    }
+    inputText.setSelectionRange(cursorPos, cursorPos)
 }
 function onMouseUp(event) {
-    event.preventDefault();
     let code = '';
     if (event.target.tagName === 'BUTTON') {
         code = event.target.dataset.code;
-        event.target.classList.remove('animation');
-        console.log(code)
+        event.target.classList.remove('active');
+
     }
     if (code === 'ShiftLeft' || code === 'ShiftRight') {
         if (shiftState === false) {
             shiftState = true
             capsState = true
-            let but = document.querySelectorAll("button")
-            for (let i = 0; i < en.length; i++) {
-                but[i].innerHTML = getButton(i)
-            }
+            restart()
         }
         if (shiftState === true) {
             shiftState = false
-            let but = document.querySelectorAll("button")
-            for (let i = 0; i < en.length; i++) {
-                but[i].innerHTML = getButton(i)
-            }
+            restart()
         }
     }
 }
 function onKeyDown(event) {
-    event.preventDefault();
-    let buto = document.querySelector(`button[data-code=${event.code}]`)
-    buto.classList.add('animation');
+    let inputText = document.querySelector('textarea')
+    if (event.stopPropagation) {
+        event.stopPropagation();
+    }
+    inputText.focus();
+
     console.log(event)
-    let textarea = document.querySelector('textarea')
-    if (event.code === 'Backspace') {
-        textarea.innerHTML = textarea.innerHTML.slice(0, -1);
-    } else if (event.code === 'Enter') {
-        textarea.innerHTML = `${textarea.innerHTML}\n`;
-    } else if (event.code === 'ShiftLeft' || event.code === 'ShiftRight') {
+    console.log(lang)
+    let buto = document.querySelector(`button[data-code=${event.code}]`)
+    buto.classList.add('active');
+    if (event.type === "keydown") {
+        event.preventDefault();
+    }
+    if (event.code === 'ShiftLeft' || event.code === 'ShiftRight') {
         if (capsState === false) {
             shiftState = true
-            let but = document.querySelectorAll("button")
-            for (let i = 0; i < en.length; i++) {
-                but[i].innerHTML = getButton(i)
-            }
+            restart()
         }
         if (capsState === true) {
             shiftState = false
             capsState = false
-            let but = document.querySelectorAll("button")
-            for (let i = 0; i < en.length; i++) {
-                but[i].innerHTML = getButton(i)
-            }
+            restart()
         }
-    } else if (event.code === 'CapsLock') {
-        capsState = !capsState;
-        let but = document.querySelectorAll("button")
-        for (let i = 0; i < en.length; i++) {
-            but[i].innerHTML = getButton(i)
-        }
-    } else if (event.code === 'Tab') {
-        textarea.innerHTML = `${textarea.innerHTML}    `;
-    } else if (event.code === 'Space') {
-        textarea.innerHTML = `${textarea.innerHTML} `;
-    } else if (event.code === 'Delete') {
-        //
-    } else if (event.code === 'AltLeft' || event.code === 'AltRight' || event.code === 'Win' || event.code === 'ControlRight' || event.code === 'ControlLeft') {
-        //
-    } else {
-        textarea.innerHTML += getCodeClickButton(event.code);
     }
+    //lang
+    if ((event.code === 'ShiftLeft' && event.altKey) || (event.code === 'AltLeft' && event.shiftKey)) {
+        switchLang()
+        restart()
+    }
+    if (event.code === 'CapsLock') {
+        capsState = !capsState;
+        restart()
+    }
+
+    //
+    event.preventDefault();
+    let cursorPos = inputText.selectionStart;
+    const left = inputText.value.slice(0, cursorPos);
+    const right = inputText.value.slice(cursorPos);
+    console.log(event)
+    const fnButton = {
+        Tab: () => {
+            inputText.value = `${left}\t${right}`;
+        },
+        ArrowLeft: () => {
+            cursorPos = cursorPos - 1 >= 0 ? cursorPos - 1 : 0;
+        },
+        ArrowRight: () => {
+            cursorPos += 1;
+        },
+        ArrowUp: () => {
+            let fromLeft = inputText.value.slice(0, cursorPos).match(/(\n).*$(?!\1)/g) || [[1]];
+            cursorPos -= fromLeft[0].length
+        },
+        ArrowDown: () => {
+            let fromLeft = inputText.value.slice(cursorPos).match(/^.*(\n).*(?!\1)/) || [[1]];
+            cursorPos += fromLeft[0].length
+        },
+        Enter: () => {
+            inputText.value = `${left}\n${right}`;
+            cursorPos += 1;
+        },
+        Delete: () => {
+            inputText.value = `${left}${right.slice(1)}`;
+        },
+        Backspace: () => {
+            inputText.value = `${left.slice(0, -1)}${right}`;
+            cursorPos -= 1;
+        },
+        Space: () => {
+            inputText.value = `${left} ${right}`;
+            cursorPos += 1;
+        },
+        ShiftLeft: () => {
+            inputText.value = `${left}${right}`
+        },
+        ShiftRight: () => {
+            inputText.value = `${left}${right}`
+        },
+        CapsLock: () => {
+            inputText.value = `${left}${right}`
+        },
+        AltLeft: () => {
+            inputText.value = `${left} ${right}`;
+            cursorPos += 1;
+        },
+        ControlLeft: () => {
+            inputText.value = `${left}${right}`
+        },
+        ControlRight: () => {
+            inputText.value = `${left}${right}`
+        },
+        AltRight: () => {
+            inputText.value = `${left}${right}`
+        },
+    }
+
+    if (fnButton[event.code]) {
+        fnButton[event.code]();
+    } else {
+        cursorPos += 1;
+        inputText.value = `${left}${getCodeClickButton(event.code) || ''}${right}`
+        console.log(event)
+    }
+    inputText.setSelectionRange(cursorPos, cursorPos)
 }
 function onKeyUp(event) {
-    event.preventDefault();
     let buto = document.querySelector(`button[data-code=${event.code}]`)
-    buto.classList.remove('animation');
+    buto.classList.remove('active');
     if (event.code === 'ShiftLeft' || event.code === 'ShiftRight') {
         if (shiftState === false) {
             shiftState = true
             capsState = true
-            let but = document.querySelectorAll("button")
-            for (let i = 0; i < en.length; i++) {
-                but[i].innerHTML = getButton(i)
-            }
+            restart()
         }
         if (shiftState === true) {
             shiftState = false
-            let but = document.querySelectorAll("button")
-            for (let i = 0; i < en.length; i++) {
-                but[i].innerHTML = getButton(i)
-            }
+            restart()
         }
     }
+
 }
