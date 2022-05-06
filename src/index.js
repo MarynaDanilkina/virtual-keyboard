@@ -102,15 +102,6 @@ function getCodeClickButton(code) {
     return getButton(index);
 }
 
-
-
-
-
-
-
-
-
-
 function addListeners() {
     document.addEventListener('mouseup', (event) => onMouseUp(event));
     document.addEventListener('keydown', (event) => onKeyDown(event));
