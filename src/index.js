@@ -1,13 +1,12 @@
-import ru from '../src/jsLang/ru.js';
-import en from '../src/jsLang/en.js';
+import ru from './jsLang/ru.js';
+import en from './jsLang/en.js';
 
-//export default { ru, en };
+export default { ru, en };
 const addClass = ['', '', '', '', '', '', '', '', '', '', '', '', '', 'button__backspace', 'button__tab', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 'button__caps', '', '', '', '', '', '', '', '', '', '', '', 'button__enter', 'button__shift', '', '', '', '', '', '', '', '', '', '', '', '', '', 'button__ctrl', '', '', 'button__space', '', 'button__ctrl', '', '', ''];
 
 let shiftState = false;
 let capsState = false;
-let lang = 'en'
-lang = localStorage.getItem('lang');
+let lang = localStorage.getItem('lang') || 'en';
 function addDiv() {
     const body = document.querySelector('body')
     let div = document.createElement('div');
