@@ -193,8 +193,7 @@ function onMouseDown(event) {
             inputText.value = `${left}${right}`
         },
         AltLeft: () => {
-            inputText.value = `${left} ${right}`;
-            cursorPos += 1;
+            inputText.value = `${left}${right}`;
         },
         ControlLeft: () => {
             inputText.value = `${left}${right}`
@@ -248,6 +247,7 @@ function onKeyDown(event) {
     console.log(event)
     console.log(lang)
     let buto = document.querySelector(`button[data-code=${event.code}]`)
+    console.log(buto)
     buto.classList.add('active');
     if (event.type === "keydown") {
         event.preventDefault();
@@ -322,8 +322,7 @@ function onKeyDown(event) {
             inputText.value = `${left}${right}`
         },
         AltLeft: () => {
-            inputText.value = `${left} ${right}`;
-            cursorPos += 1;
+            inputText.value = `${left}${right}`;
         },
         ControlLeft: () => {
             inputText.value = `${left}${right}`
