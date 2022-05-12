@@ -43,7 +43,7 @@ function addKeyboard(div2) {
 }
 function addP(div3) {
   const p = document.createElement('p');
-  p.innerHTML = 'Для переключения языка комбинация: Left Ctrl + Left Alt или кнопка EN/RU';
+  p.innerHTML = 'Для переключения языка комбинация: Left Shift + Left Alt или кнопка EN/RU';
   div3.append(p);
 }
 function addButton(divKeyboardCont) {
